@@ -1,5 +1,4 @@
 import spotify from "spotify-web-api-node";
-import { JsonDB } from "node-json-db";
 import { TokenManager } from "./tokenmanager";
 import 'dotenv/config'
 
@@ -24,7 +23,6 @@ client.setRefreshToken(tokenManager.getRefreshToken())
 
 client.refreshAccessToken().then(value => {
 
-
   tokenManager.setAccessToken(value.body.access_token)
   if (value.body.refresh_token) {
     tokenManager.setRefreshToken(value.body.refresh_token)
@@ -32,8 +30,8 @@ client.refreshAccessToken().then(value => {
 
   let counter = 0
   client.getUser(USER).then((user) => {
-
     client.getUserPlaylists(USER).then((userPlaylists) => {
+
       const playlists = userPlaylists.body.items.map(playlist => playlist.name)
       while (playlists.includes(playlistName)) {
         playlistName += ` (${++counter})`
@@ -48,7 +46,6 @@ client.refreshAccessToken().then(value => {
         })
       })
     })
-
   })
 })
 
