@@ -31,24 +31,25 @@ client.refreshAccessToken().then(value => {
   }
 
   let counter = 0
-  client.getUserPlaylists(USER).then((res) => {
-    const playlists = res.body.items.map(playlist => playlist.name)
-    while (playlists.includes(playlistName)) {
-      playlistName += ` (${++counter})`
-    }
+  client.getUser(USER).then((user) => {
 
-    console.log("Creating Playlist", playlistName)
+    client.getUserPlaylists(USER).then((userPlaylists) => {
+      const playlists = userPlaylists.body.items.map(playlist => playlist.name)
+      while (playlists.includes(playlistName)) {
+        playlistName += ` (${++counter})`
+      }
 
-    client.createPlaylist(playlistName, { public: false, description: `Monthly #BACKUP from @fastplayer95/Chill | Created on: ${today.toLocaleDateString("de-DE")}` }).then(res => {
-      const TARGET = res.body.id;
+      console.log("Creating Playlist", playlistName)
       client.getPlaylist(SOURCE).then(source => {
-        const tracks = source.body.tracks.items.map(track => track.track.uri)
-        client.addTracksToPlaylist(TARGET, tracks)
+        client.createPlaylist(playlistName, { public: false, description: `Monthly #BACKUP from @${user.body.display_name}/${source.body.name} | Created on: ${today.toLocaleDateString("de-DE")}` }).then(res => {
+          const TARGET = res.body.id;
+          const tracks = source.body.tracks.items.map(track => track.track.uri)
+          client.addTracksToPlaylist(TARGET, tracks)
+        })
       })
     })
+
   })
-
-
 })
 
 
