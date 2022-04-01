@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "dotenv": "^16.0.0",
-    "node-json-db": "^1.4.1",
     "spotify-web-api-node": "^5.0.2"
   }
 }

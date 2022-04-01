@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  spotifybackup:
+    container_name: "spotifybackup"
+    build: .
+    env_file: .env
+    volumes:
+      - ".refereshToken:/app/config/.refereshToken:rw"
+    # command: cat /app/config/.refereshToken

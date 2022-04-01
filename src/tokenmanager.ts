@@ -1,36 +1,14 @@
-import { JsonDB } from "node-json-db";
+import { fstat, readFileSync, writeFileSync } from "fs";
+import { resolve } from "path";
 
-export class TokenManager {
+const filename = ".refereshToken"
+const filepath = resolve(__dirname, "..", "config", filename)
 
+export function getRefreshToken(): string {
+  return readFileSync(filepath, { encoding: "utf-8" }).toString().trim();
+}
 
-  private db
-
-  private static instance: TokenManager
-  constructor() {
-    this.db = new JsonDB("SpotifyBackup.json", true, true)
-  }
-
-  public static getInstance(): TokenManager {
-    if (!TokenManager.instance) {
-      TokenManager.instance = new TokenManager();
-    }
-
-    return TokenManager.instance;
-  }
-
-  getRefreshToken(): string {
-    return this.db.getData("/refreshToken")
-  }
-
-  setRefreshToken(token: string): void {
-    this.db.push("/refreshToken", token, true)
-  }
-
-  getAccessToken(): string {
-    return this.db.getData("/accessToken")
-  }
-
-  setAccessToken(token: string): void {
-    this.db.push("/accessToken", token, true)
-  }
+export function saveRefreshToken(token: string): void {
+  writeFileSync(filepath, token, { encoding: "utf-8" })
+  return;
 }
