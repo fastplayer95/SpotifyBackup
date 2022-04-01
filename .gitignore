@@ -1,7 +1,7 @@
 # Custom
 SpotifyBackup.json
 .refreshToken
-*.env
+.env
 
 
 
