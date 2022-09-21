@@ -14,7 +14,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "spotify-web-api-node": "^5.0.2"
   }
 }
